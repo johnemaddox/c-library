@@ -1,0 +1,44 @@
+{
+    // See https://go.microsoft.com/fwlink/?inkId=733558
+    // for the documentation about the tasks.Ljson format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "run",
+            "type": "shell",
+            "command": "./build run",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "focus": true,
+            }
+        },
+        {
+            "label": "debug",
+            "type": "shell",
+            "command": "./build debug",
+            "presentation": {
+                "focus": true,
+            }
+        },
+        {
+            "label": "test",
+            "type": "shell",
+            "command": "./build test",
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            },
+            "presentation": {
+                "focus": true
+            }
+        },
+        {
+            "label": "debug-close",
+            "detail": "Closes current open terminal windows",
+            "command": "${command:workbench.action.terminal.kill}"
+        }
+    ]
+}
