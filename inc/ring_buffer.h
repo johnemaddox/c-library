@@ -2,6 +2,16 @@
  *
  * FiFo Ring Buffer
  *
+ *  Performs basic FiFo operations for use in embedded systems.
+ *  Maintains thread safe operations by using an empty buffer
+ *  cell as a way to to prevent simultneous read and writes to
+ *  the same buffer location. Each cell utilizes one byte.
+ *
+ *  Length is required to be a power of two, if it is not memory
+ *  will not be allocated and RB_LEN_SIZE will be returned. This
+ *  will result in seg fault if the wrong size buffer is created
+ *  and the flag is not checked.
+ *
  * @author John E Maddox
  *
 *************************************************************H*/
@@ -20,36 +30,34 @@ typedef enum
 {
     RB_OK,
     RB_LEN_SIZE,
-    RB_LEN_MISMATCH
+    RB_EMPTY,
+    RB_FULL
 
-} rb_error_t;
+} rb_status_t;
 
 typedef struct
 {
-    uint8_t *p_buf;
-    size_t   buf_len;
+    uint8_t *data;
+    size_t   max_len;
     size_t   head_idx;
     size_t   tail_idx;
 
 } rb_handle_t;
 
-/*  configures handle and validates buffer and buffer length
- *  - buffer needs to match buffer length
- *  - buffer length must be a power of 2
- *  - one space is reserved, actual usable length is n-1
+/*  - allocate buffer memory to rb_handle_t **rb
+ *  - max length must be a power of 2 or RB_LEN_SIZE is returned
+ *  - one space is reserved, actual usable length is max_len-1
  */
-rb_error_t rb_init (rb_handle_t *handle, uint8_t *buf, size_t buf_len);
+rb_status_t rb_init (rb_handle_t **rb, size_t max_len);
 
-// returns remaining buffer space
-size_t rb_put (rb_handle_t *handle, uint8_t data_in);
+rb_status_t rb_put (rb_handle_t *rb, uint8_t data_in);
 
-uint8_t rb_get (rb_handle_t *handle);
+rb_status_t rb_get (rb_handle_t *rb, uint8_t *data_out);
 
-// returns remaining buffer space
-size_t rb_get_space (rb_handle_t *handle);
+// resets buffer indexes to zero
+void rb_reset (rb_handle_t *rb);
 
-// zeros out buffer indexes
-void rb_reset (rb_handle_t *handle);
+void rb_free (rb_handle_t** rb);
 
 #ifdef __cplusplus
     }
