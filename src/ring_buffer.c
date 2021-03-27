@@ -2,16 +2,6 @@
  *
  * FiFo Ring Buffer
  *
- *  Performs basic FiFo operations for use in embedded systems.
- *  Maintains thread safe operations by using an empty buffer
- *  cell as a way to to prevent simultneous read and writes to
- *  the same buffer location. Each cell utilizes one byte.
- *
- *  Length is required to be a power of two, if it is not memory
- *  will not be allocated and RB_LEN_SIZE will be returned. This
- *  will result in seg fault if the wrong size buffer is created
- *  and the flag is not checked.
- *
  * @author John E Maddox
  *
 *************************************************************H*/
@@ -32,7 +22,7 @@ static size_t get_next_idx (size_t idx, size_t max)
     return ((idx + 1) & (max - 1));
 }
 
-rb_status_t rb_init (rb_handle_t **rb, size_t max_len)
+rb_status_t rb_init (rb_handle_t **rb, size_t max_len, rb_type_t type)
 {
     if (!is_power_of_two(max_len)) { return RB_LEN_SIZE; }
 
@@ -40,6 +30,7 @@ rb_status_t rb_init (rb_handle_t **rb, size_t max_len)
 
     (*rb)->data = (uint8_t*)calloc(max_len, sizeof(uint8_t));
     (*rb)->max_len = max_len;
+    (*rb)->type = type;
     rb_reset(*rb);
 
     return RB_OK;
@@ -49,7 +40,17 @@ rb_status_t rb_put (rb_handle_t *rb, uint8_t data_in)
 {
     size_t next_idx = get_next_idx(rb->head_idx, rb->max_len);
 
-    if (next_idx == rb->tail_idx) { return RB_FULL; }
+    if (next_idx == rb->tail_idx)
+    { 
+        if (rb->type == RB_TYPE_OVERWRITE)
+        {
+            rb->tail_idx = get_next_idx(rb->tail_idx, rb->max_len);
+        }
+        else
+        {
+            return RB_FULL;
+        }
+    }
 
     rb->data[rb->head_idx] = data_in;
 

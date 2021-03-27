@@ -35,12 +35,20 @@ typedef enum
 
 } rb_status_t;
 
+typedef enum
+{
+    RB_TYPE_STOP_ON_FULL,
+    RB_TYPE_OVERWRITE
+
+} rb_type_t;
+
 typedef struct
 {
-    uint8_t *data;
-    size_t   max_len;
-    size_t   head_idx;
-    size_t   tail_idx;
+    uint8_t  *data;
+    size_t    max_len;
+    size_t    head_idx;
+    size_t    tail_idx;
+    rb_type_t type;
 
 } rb_handle_t;
 
@@ -48,7 +56,7 @@ typedef struct
  *  - max length must be a power of 2 or RB_LEN_SIZE is returned
  *  - one space is reserved, actual usable length is max_len-1
  */
-rb_status_t rb_init (rb_handle_t **rb, size_t max_len);
+rb_status_t rb_init (rb_handle_t **rb, size_t max_len, rb_type_t type);
 
 rb_status_t rb_put (rb_handle_t *rb, uint8_t data_in);
 

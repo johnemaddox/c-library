@@ -7,35 +7,54 @@ namespace
 TEST(RingBufferInit, FlagOk)
 {
     rb_handle_t *rb;
-    ASSERT_EQ(rb_init(&rb, 8), RB_OK);
+    ASSERT_EQ(rb_init(&rb, 8, RB_TYPE_STOP_ON_FULL), RB_OK);
     rb_free(&rb);
 }
 
 TEST(RingBufferInit, FlagLenSize)
 {
     rb_handle_t *rb;
-    ASSERT_EQ(rb_init(&rb, 9), RB_LEN_SIZE);
+    ASSERT_EQ(rb_init(&rb, 9, RB_TYPE_STOP_ON_FULL), RB_LEN_SIZE);
     // NOTE: memory is not allocated when this flag is returned.
+}
+
+TEST(RingBufferOverwrite, CycleBuffer)
+{
+    rb_handle_t *rb;
+    ASSERT_EQ(rb_init(&rb, 8, RB_TYPE_OVERWRITE), RB_OK);
+
+    for (uint8_t data_in=0; data_in < 16; data_in++)
+    {
+        EXPECT_EQ(rb_put(rb, data_in), RB_OK);
+    }
+
+    uint8_t data_out;
+    for (uint8_t val=9; val < 16; val++)
+    {
+        EXPECT_EQ(rb_get(rb, &data_out), RB_OK);
+        EXPECT_EQ(data_out, val);
+    }
+
+    rb_free(&rb);
 }
 
 class RingBufferDataStore : public ::testing::Test
 {
+    public:
+        rb_handle_t *rb;
+        const size_t max_len = 8;
+        uint8_t data_out;
 
-public:
-    rb_handle_t *rb;
-    const size_t max_len = 8;
-    uint8_t data_out;
+    private:
+        void SetUp() override
+        {
+            ASSERT_EQ(rb_init(&rb, max_len, RB_TYPE_STOP_ON_FULL), RB_OK);
+        }
 
-private:
-    void SetUp() override
-    {
-        ASSERT_EQ(rb_init(&rb, max_len), RB_OK);
-    }
-
-    void TearDown() override
-    {
-        rb_free(&rb);
-    }
+        void TearDown() override
+        {
+            rb_free(&rb);
+        }
 };
 
 TEST_F(RingBufferDataStore, FillBuffer)
@@ -49,8 +68,7 @@ TEST_F(RingBufferDataStore, FillBuffer)
 
 TEST_F(RingBufferDataStore, CycleBuffer)
 {
-    size_t two_buffer_cycles = (max_len)*2;
-    for (int i=0; i < two_buffer_cycles; i++)
+    for (int i=0; i < max_len*2; i++)
     {
         EXPECT_EQ(rb_put(rb, i), RB_OK);
 

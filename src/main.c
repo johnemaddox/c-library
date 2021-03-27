@@ -18,7 +18,7 @@ int main()
     const size_t max_len = 8;
     rb_handle_t *rb;
 
-    if (rb_init(&rb, max_len) == RB_OK)
+    if (rb_init(&rb, max_len, RB_TYPE_STOP_ON_FULL) == RB_OK)
     {
         uint8_t data_in = 0;
         while (rb_put(rb, data_in) != RB_FULL)
