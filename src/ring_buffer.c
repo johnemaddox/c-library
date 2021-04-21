@@ -24,11 +24,21 @@ static size_t get_next_idx (size_t idx, size_t max)
 
 rb_status_t rb_init (rb_handle_t **rb, size_t max_len, rb_type_t type)
 {
-    if (!is_power_of_two(max_len)) { return RB_LEN_SIZE; }
+    if (!is_power_of_two(max_len)) { return RB_LEN_ERR; }
 
     (*rb) = (rb_handle_t*)malloc(sizeof(rb_handle_t));
 
+    if ((*rb) == NULL) { return RB_MEM_ERR; }
+
     (*rb)->data = (uint8_t*)calloc(max_len, sizeof(uint8_t));
+
+    if ((*rb)->data == NULL)
+    { 
+        free(*rb);
+        *rb = NULL;
+        return RB_MEM_ERR;
+    }
+
     (*rb)->max_len = max_len;
     (*rb)->type = type;
     rb_reset(*rb);

@@ -14,7 +14,7 @@ TEST(RingBufferInit, FlagOk)
 TEST(RingBufferInit, FlagLenSize)
 {
     rb_handle_t *rb;
-    ASSERT_EQ(rb_init(&rb, 9, RB_TYPE_STOP_ON_FULL), RB_LEN_SIZE);
+    ASSERT_EQ(rb_init(&rb, 9, RB_TYPE_STOP_ON_FULL), RB_LEN_ERR);
     // NOTE: memory is not allocated when this flag is returned.
 }
 

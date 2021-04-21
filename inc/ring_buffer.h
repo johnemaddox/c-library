@@ -8,11 +8,13 @@
  *  the same buffer location. Each cell utilizes one byte.
  *
  *  Length is required to be a power of two, if it is not memory
- *  will not be allocated and RB_LEN_SIZE will be returned. This
+ *  will not be allocated and RB_LEN_ERR will be returned. This
  *  will result in seg fault if the wrong size buffer is created
  *  and the flag is not checked.
  *
  * @author John E Maddox
+ *
+ * @version 1.0.0
  *
 *************************************************************H*/
 
@@ -29,7 +31,8 @@
 typedef enum
 {
     RB_OK,
-    RB_LEN_SIZE,
+    RB_LEN_ERR,
+    RB_MEM_ERR,
     RB_EMPTY,
     RB_FULL
 
@@ -53,7 +56,7 @@ typedef struct
 } rb_handle_t;
 
 /*  - allocate buffer memory to rb_handle_t **rb
- *  - max length must be a power of 2 or RB_LEN_SIZE is returned
+ *  - max length must be a power of 2 or RB_LEN_ERR is returned
  *  - one space is reserved, actual usable length is max_len-1
  */
 rb_status_t rb_init (rb_handle_t **rb, size_t max_len, rb_type_t type);
