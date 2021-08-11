@@ -1,9 +1,12 @@
-set(BINARY ${CMAKE_PROJECT_NAME}_test)
+set(exec_name ${CMAKE_PROJECT_NAME}_test)
 
-file(GLOB_RECURSE TEST_SOURCES LIST_DIRECTORIES false *.cpp)
+set(src_list
+    main.cpp
+    ring_buffer-test.cpp
+)
 
-add_executable(${BINARY} ${TEST_SOURCES})
+add_executable(${exec_name} ${src_list})
 
-add_test(NAME ${BINARY} COMMAND ${BINARY})
+add_test(NAME ${exec_name} COMMAND ${exec_name})
 
-target_link_libraries(${BINARY} PUBLIC ${CMAKE_PROJECT_NAME}_lib gtest pthread)
+target_link_libraries(${exec_name} PUBLIC ${CMAKE_PROJECT_NAME}_lib gtest pthread)

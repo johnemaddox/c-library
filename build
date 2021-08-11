@@ -15,15 +15,13 @@ make_all () {
         release="$1"
     fi
 
-    cmake -S . -B "${build_dir}" -DCMAKE_BUILD_TYPE=${release}
-    cd $build_dir
-    make all
-    cd $base_dir
+    cmake -S . -B "${build_dir}" -DCMAKE_BUILD_TYPE="${release}"
+    cmake --build out -- all
 }
 
 make_clean () {
     echo ">> Cleaning ${app_name} <<"
-    rm -rf ${build_dir}
+    rm -rf "${build_dir}"
     echo "Removed ${build_dir}"
 }
 

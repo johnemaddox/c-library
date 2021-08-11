@@ -1,9 +1,12 @@
-set(BINARY ${CMAKE_PROJECT_NAME})
+set(exec_name ${CMAKE_PROJECT_NAME})
 
-file(GLOB_RECURSE SOURCES LIST_DIRECTORIES false *.c *.cpp)
+set(src_list
+    main.c
+    ring_buffer.c
+)
 
-add_executable(${BINARY} ${SOURCES})
+add_executable(${exec_name} ${src_list})
 
-add_library(${BINARY}_lib STATIC ${SOURCES})
+add_library(${exec_name}_lib STATIC ${src_list})
 
-target_link_libraries(${BINARY} common_lib)
+target_link_libraries(${exec_name} common_lib)
