@@ -42,7 +42,7 @@ class RingBufferDataStore : public ::testing::Test
 {
     public:
         rb_handle_t *rb;
-        const size_t max_len = 8;
+        const int max_len = 8;
         uint8_t data_out;
 
     private:
