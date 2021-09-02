@@ -1,12 +1,10 @@
-set(exec_name ${CMAKE_PROJECT_NAME})
-
-set(src_list
-    main.c
+add_library(${PROJECT_NAME}_lib STATIC
     ring_buffer.c
 )
 
-add_executable(${exec_name} ${src_list})
+target_include_directories(${PROJECT_NAME}_lib PUBLIC
+    ${CMAKE_SOURCE_DIR}/inc
+)
 
-add_library(${exec_name}_lib STATIC ${src_list})
-
-target_link_libraries(${exec_name} common_lib)
+add_executable(${PROJECT_NAME} main.c)
+target_link_libraries(${PROJECT_NAME} PRIVATE ${PROJECT_NAME}_lib)

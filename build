@@ -16,7 +16,7 @@ make_all () {
     fi
 
     cmake -S . -B "${build_dir}" -DCMAKE_BUILD_TYPE="${release}"
-    cmake --build out -- all
+    cmake --build "${build_dir}" -- all
 }
 
 make_clean () {
@@ -32,7 +32,7 @@ if [ -n "${1+x}" ]; then
             make_all
             echo ""
             echo ">> Running ${app_name} tests <<"
-            ${build_dir}/bin/${app_name}_test
+            make -C "${build_dir}" test
             ;;
         "debug")
             echo ">> Building ${app_name} debug <<"

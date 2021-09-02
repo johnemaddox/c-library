@@ -1,6 +1,6 @@
-cmake_minimum_required(VERSION 3.10.0)
+cmake_minimum_required(VERSION 3.16.3)
 
-project(common VERSION 0.1.0)
+project(common LANGUAGES C CXX)
 
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD 14)
@@ -9,12 +9,12 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-add_compile_options(-Wall -Werror)
+add_compile_options(-Wall -Werror -Wextra)
 
-include_directories(inc)
 add_subdirectory(src)
 
 if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
-    message(STATUS "DEBUG")
-    add_subdirectory(test)
+    message(STATUS "Building Tests")
+    enable_testing()
+    add_subdirectory(tests)
 endif()
