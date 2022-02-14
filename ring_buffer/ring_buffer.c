@@ -19,7 +19,8 @@ static bool is_power_of_two (size_t num)
 
 static size_t get_next_idx (size_t idx, size_t max)
 {
-    return ((idx + 1) & (max - 1));
+    //return ((idx + 1) & (max - 1));
+    return (idx + 1) % max;
 }
 
 rb_status_t rb_init (rb_handle_t **rb, size_t max_len, rb_type_t type)

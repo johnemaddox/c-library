@@ -1,5 +1,7 @@
 #include "gtest/gtest.h"
+extern "C" {
 #include "ring_buffer.h"
+}
 
 namespace
 {

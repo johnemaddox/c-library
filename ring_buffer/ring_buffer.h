@@ -21,10 +21,6 @@
 #ifndef RING_BUFFER_H
 #define RING_BUFFER_H
 
-#ifdef __cplusplus
-    extern "C" {
-#endif
-
 #include <stddef.h>
 #include <stdint.h>
 
@@ -70,7 +66,4 @@ void rb_reset (rb_handle_t *rb);
 
 void rb_free (rb_handle_t** rb);
 
-#ifdef __cplusplus
-    }
-#endif
 #endif /* RING_BUFFER_H */

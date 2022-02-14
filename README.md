@@ -1,6 +1,6 @@
-# C/C++ Common Code Library
+# C Library
 
-This is a common code library written in C for C/C++ projects, it is linked as a static library in c-base by default.
+This is a collection of C code that I frequently use in projects.
 
 ## Build Commands
 
