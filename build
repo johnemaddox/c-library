@@ -44,22 +44,6 @@ if [ -n "${1+x}" ]; then
             echo ">> Building ${app_name} release <<"
             make_all "Release"
             ;;
-        "install")
-            if [ "$(whoami)" != "root" ]; then
-                echo "ERROR: Must run as root to install library."
-                exit 1
-            fi
-            ./build release
-            echo ""
-            echo ">> Copying library to /usr/local <<"
-            if [ ! -d "/usr/local/include/$app_name" ]; then
-                mkdir /usr/local/include/$app_name
-            fi
-            cp -vi $base_dir/inc/* /usr/local/include/$app_name
-            cp -vi $build_dir/lib/* /usr/local/lib/
-            echo ""
-            ./build clean
-            ;;
         "run")
             target=${build_dir}/bin/${app_name}
             if [ ! -f "$target" ]; then
