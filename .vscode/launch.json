@@ -8,10 +8,9 @@
             "name": "GDB",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/out/bin/common",
+            "program": "${workspaceFolder}/out/bin/${input:exec}",
             "args": [],
-            "stopAtEntry": true,
-            "cwd": "${workspaceFolder}/src",
+            "cwd": "${workspaceFolder}",
             "environment": [],
             "externalConsole": false,
             "MIMode": "gdb",
@@ -22,8 +21,15 @@
                     "ignoreFailures": false
                 }
             ],
-            "preLaunchTask": "debug",
+            "preLaunchTask": "debug-build",
             "postDebugTask": "debug-close"
         }
+    ],
+    "inputs": [
+        {
+            "id": "exec",
+            "type": "promptString",
+            "description": "Type the executable name to debug."
+        }
     ]
-}
+  }

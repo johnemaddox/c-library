@@ -1,61 +1,53 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-base_dir="$(pwd)"
-build_dir="$base_dir/out"
-app_name="common"
+build_dir="$(pwd)/out"
 
-usage () {
-    echo "Commands: test, debug, release, (sudo) install, run, clean"
+usage()
+{
+    echo "Commands: test [name], debug, clean"
 }
 
-make_all () {
-    release="Debug"
-    if [ -n "${1+x}" ]; then
-        release="$1"
-    fi
-
-    cmake -S . -B "${build_dir}" -DCMAKE_BUILD_TYPE="${release}"
+make_all()
+{
+    cmake -S . -B "${build_dir}" -DCMAKE_BUILD_TYPE="Debug"
     cmake --build "${build_dir}" -- all
-}
-
-make_clean () {
-    echo ">> Cleaning ${app_name} <<"
-    rm -rf "${build_dir}"
-    echo "Removed ${build_dir}"
 }
 
 if [ -n "${1+x}" ]; then
     case "$1" in
         "test")
-            echo ">> Building ${app_name} tests <<"
+            if [ -z "${2+x}" ]; then
+                echo "Error: Test requires a test name as a second argument."
+                echo ""
+                exit 1
+            fi
+
+            echo ">> Building <<"
             make_all
             echo ""
-            echo ">> Running ${app_name} tests <<"
-            make -C "${build_dir}" test
+
+            test_bin="./out/bin/${2}"
+            if [ ! -f "$test_bin" ]; then
+                echo "ERROR: The executable ${test_bin} was not found."
+                echo ""
+                exit 1
+            fi
+
+            echo ">> Running ${2} test <<"
+            $test_bin
+            echo ""
             ;;
         "debug")
-            echo ">> Building ${app_name} debug <<"
+            echo ">> Building <<"
             make_all
-            ;;
-        "release")
-            make_clean
             echo ""
-            echo ">> Building ${app_name} release <<"
-            make_all "Release"
-            ;;
-        "run")
-            target=${build_dir}/bin/${app_name}
-            if [ ! -f "$target" ]; then
-                echo ">> Building ${app_name} debug <<"
-                make_all
-                echo ""
-            fi
-            echo ">> Running ${app_name} <<"
-            $target
             ;;
         "clean")
-            make_clean
+            echo ">> Cleaning <<"
+            rm -rf "${build_dir}"
+            echo "Removed ${build_dir}"
+            echo ""
             ;;
         *)
             usage

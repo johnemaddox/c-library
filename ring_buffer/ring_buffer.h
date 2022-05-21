@@ -31,14 +31,12 @@ typedef enum
     RB_MEM_ERR,
     RB_EMPTY,
     RB_FULL
-
 } rb_status_t;
 
 typedef enum
 {
     RB_TYPE_STOP_ON_FULL,
     RB_TYPE_OVERWRITE
-
 } rb_type_t;
 
 typedef struct
@@ -48,22 +46,21 @@ typedef struct
     size_t    head_idx;
     size_t    tail_idx;
     rb_type_t type;
-
 } rb_handle_t;
 
 /*  - allocate buffer memory to rb_handle_t **rb
  *  - max length must be a power of 2 or RB_LEN_ERR is returned
  *  - one space is reserved, actual usable length is max_len-1
  */
-rb_status_t rb_init (rb_handle_t **rb, size_t max_len, rb_type_t type);
+rb_status_t rb_init(rb_handle_t **rb, size_t max_len, rb_type_t type);
 
-rb_status_t rb_put (rb_handle_t *rb, uint8_t data_in);
+rb_status_t rb_put(rb_handle_t *rb, uint8_t data_in);
 
-rb_status_t rb_get (rb_handle_t *rb, uint8_t *data_out);
+rb_status_t rb_get(rb_handle_t *rb, uint8_t *data_out);
 
 // resets buffer indexes to zero
-void rb_reset (rb_handle_t *rb);
+void rb_reset(rb_handle_t *rb);
 
-void rb_free (rb_handle_t** rb);
+void rb_free(rb_handle_t** rb);
 
 #endif /* RING_BUFFER_H */

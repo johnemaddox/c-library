@@ -4,29 +4,9 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "run",
-            "type": "shell",
-            "command": "./build debug && ./build run",
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
-            "presentation": {
-                "focus": true,
-            }
-        },
-        {
-            "label": "debug",
-            "type": "shell",
-            "command": "./build debug",
-            "presentation": {
-                "focus": true,
-            }
-        },
-        {
             "label": "test",
             "type": "shell",
-            "command": "./build test",
+            "command": "./build test ${input:exec}",
             "group": {
                 "kind": "test",
                 "isDefault": true
@@ -36,9 +16,28 @@
             }
         },
         {
+            "label": "debug-build",
+            "type": "shell",
+            "command": "./build debug",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "focus": true,
+            }
+        },
+        {
             "label": "debug-close",
             "detail": "Closes current open terminal windows",
             "command": "${command:workbench.action.terminal.kill}"
+        }
+    ],
+    "inputs": [
+        {
+            "id": "exec",
+            "type": "promptString",
+            "description": "Type the test to run."
         }
     ]
 }

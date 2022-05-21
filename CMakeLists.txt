@@ -12,10 +12,5 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 add_compile_options(-Wall -Werror -Wextra)
 
 add_subdirectory(ring_buffer)
-add_subdirectory(src)
 
-if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
-    message(STATUS "Building Tests")
-    enable_testing()
-    add_subdirectory(tests)
-endif()
+add_subdirectory(tests)
