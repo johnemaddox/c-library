@@ -63,4 +63,4 @@ void rb_reset(rb_handle_t *rb);
 
 void rb_free(rb_handle_t** rb);
 
-#endif /* RING_BUFFER_H */
+#endif // RING_BUFFER_H
