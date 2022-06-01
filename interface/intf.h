@@ -18,27 +18,27 @@
 
 #include "camera.h"
 
-typedef enum intf_flag_e
+typedef enum
 {
     INTF_OK,
     INTF_ERR
 } intf_flag_t;
 
-typedef enum intf_type_e
+typedef enum
 {
     INTF_CAM_ONE,
     INTF_CAM_TWO,
     INTF_CAM_THREE
 } intf_type_t;
 
-typedef struct intf_state_s
+typedef struct 
 {
     intf_flag_t intf_flag;
     cam_state_t cam_state;
 } intf_state_t;
 
 // This is a template for all of the interfaces.
-typedef struct intf_s
+typedef struct
 {
     intf_state_t (*init)(void);
     intf_state_t (*capture)(int num_of_captures);

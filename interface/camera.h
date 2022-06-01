@@ -21,7 +21,7 @@
 #include <stdint.h>
 
 // put in actual status flags
-typedef enum cam_flag_e
+typedef enum
 {
     CAM_ONE_INIT,
     CAM_ONE_CAPTURE,
@@ -34,7 +34,7 @@ typedef enum cam_flag_e
     CAM_TWO_STOP
 } cam_flag_t;
 
-typedef struct cam_state_s
+typedef struct
 {
     cam_flag_t flag;
     uint32_t   extra;

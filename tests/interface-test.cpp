@@ -29,13 +29,13 @@ TEST(IntfSelect, SwitchHW)
 
     ASSERT_EQ(intf_select(&cam, INTF_CAM_ONE), INTF_OK);
     state = cam.init();
-    ASSERT_EQ(state.intf_flag, INTF_OK);
-    ASSERT_EQ(state.cam_state.flag, CAM_ONE_INIT);
+    EXPECT_EQ(state.intf_flag, INTF_OK);
+    EXPECT_EQ(state.cam_state.flag, CAM_ONE_INIT);
 
     ASSERT_EQ(intf_select(&cam, INTF_CAM_TWO), INTF_OK);
     state = cam.init();
-    ASSERT_EQ(state.intf_flag, INTF_OK);
-    ASSERT_EQ(state.cam_state.flag, CAM_TWO_INIT);
+    EXPECT_EQ(state.intf_flag, INTF_OK);
+    EXPECT_EQ(state.cam_state.flag, CAM_TWO_INIT);
 }
 
 
@@ -55,31 +55,31 @@ class IntfFncs : public ::testing::Test
 TEST_F(IntfFncs, Init)
 {
     state = cam.init();
-    ASSERT_EQ(state.intf_flag, INTF_OK);
-    ASSERT_EQ(state.cam_state.flag, CAM_ONE_INIT);
+    EXPECT_EQ(state.intf_flag, INTF_OK);
+    EXPECT_EQ(state.cam_state.flag, CAM_ONE_INIT);
 }
 
 TEST_F(IntfFncs, Capture)
 {
     size_t captures = 5;
     state = cam.capture(captures);
-    ASSERT_EQ(state.intf_flag, INTF_OK);
-    ASSERT_EQ(state.cam_state.flag, CAM_ONE_CAPTURE);
-    ASSERT_EQ(state.cam_state.extra, captures);
+    EXPECT_EQ(state.intf_flag, INTF_OK);
+    EXPECT_EQ(state.cam_state.flag, CAM_ONE_CAPTURE);
+    EXPECT_EQ(state.cam_state.extra, captures);
 }
 
 TEST_F(IntfFncs, Start)
 {
     state = cam.start();
-    ASSERT_EQ(state.intf_flag, INTF_OK);
-    ASSERT_EQ(state.cam_state.flag, CAM_ONE_START);
+    EXPECT_EQ(state.intf_flag, INTF_OK);
+    EXPECT_EQ(state.cam_state.flag, CAM_ONE_START);
 }
 
 TEST_F(IntfFncs, Stop)
 {
     state = cam.stop();
-    ASSERT_EQ(state.intf_flag, INTF_OK);
-    ASSERT_EQ(state.cam_state.flag, CAM_ONE_STOP);
+    EXPECT_EQ(state.intf_flag, INTF_OK);
+    EXPECT_EQ(state.cam_state.flag, CAM_ONE_STOP);
 }
 
 } // namespace
