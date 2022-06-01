@@ -82,4 +82,4 @@ TEST_F(IntfFncs, Stop)
     ASSERT_EQ(state.cam_state.flag, CAM_ONE_STOP);
 }
 
-} /* namespace */
+} // namespace

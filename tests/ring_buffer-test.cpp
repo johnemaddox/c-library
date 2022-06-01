@@ -87,4 +87,4 @@ TEST_F(RingBufferDataStore, ResetBuffer)
     EXPECT_EQ(rb_get(rb, &data_out), RB_EMPTY);
 }
 
-} /* namespace */
+} // namespace

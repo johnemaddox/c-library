@@ -19,3 +19,13 @@ target_link_libraries(ring_buffer PRIVATE
     ring_buffer_lib
     GTest::Main
 )
+
+# State Machine
+add_executable(state_machine
+    state_machine-test.cpp
+)
+
+target_link_libraries(state_machine PRIVATE
+    state_machine_lib
+    GTest::Main
+)
