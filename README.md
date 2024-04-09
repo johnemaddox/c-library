@@ -8,16 +8,23 @@ This is a collection of C code that I frequently use in projects.
 - **./build debug:** Compiles with debug flags.
 - **./build clean:** Removes ./out (build) directory.
 
-## VScode
+## Container Packages
 
-When prompted, type the name of the test you wish to run or debug, the test name is the same as the directory name of the library item.
+- vim
+- gcc
+- gdb
+- make
+- cmake
+- googletest
 
-## External Libraries
+## Setup
 
-- gtest
-
-## Ubuntu Packages
-
-```bash
-sudo apt install build-essential gdb cmake
-```
+- Install Docker
+- Add user to docker group
+    - sudo usermod -aG docker $USER
+- VScode Extensions
+    - Dev Containers (Microsoft)
+    - C/C++ (Microsoft)
+- Remote Explorer, "open folder in container".
+    - First run takes longer because environment needs to be set up.
+    - C/C++ Extension should automatically install on the remote.
