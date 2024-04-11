@@ -8,7 +8,7 @@
             "name": "GDB",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/out/bin/${input:exec}",
+            "program": "${workspaceFolder}/out/bin/test.out",
             "args": [],
             "cwd": "${workspaceFolder}",
             "environment": [],
@@ -23,13 +23,6 @@
             ],
             "preLaunchTask": "debug-build",
             "postDebugTask": "debug-close"
-        }
-    ],
-    "inputs": [
-        {
-            "id": "exec",
-            "type": "promptString",
-            "description": "Type the executable name to debug."
         }
     ]
   }

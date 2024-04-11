@@ -2,66 +2,58 @@
 set -euo pipefail
 
 build_dir="$(pwd)/out"
+lib_dir="lib"
 
 usage()
 {
-    echo "Commands: test [name], debug, clean"
+    echo "################################################################################"
+    echo "# Commands: test [lib dir], debug [lib dir], clean                             #"
+    echo "# - 'Lib Dir' is the library directory inside lib/ that you wish to execute.   #"
+    echo "################################################################################"
 }
 
-make_all()
+make_prog()
 {
-    cmake -S . -B "${build_dir}" -DCMAKE_BUILD_TYPE="Debug"
+    echo ">> Building $1 <<"
+    cmake -S . -B "${build_dir}" -DCMAKE_BUILD_TYPE="Debug" -DMY_PROG="$1"
     cmake --build "${build_dir}" -- all
 }
 
-if [ -n "${1+x}" ]; then
-    case "$1" in
-        "test")
-            if [ -z "${2+x}" ]; then
-                echo "Error: Test requires a test name as a second argument."
-                echo ""
-                exit 1
-            fi
-
-            echo ">> Building <<"
-            make_all
-            echo ""
-
-            if [ "$2" == "all" ]; then
-                for file in ${build_dir}/bin/*
-                do
-                    echo ">> Running $(basename $file) test <<"
-                    $file
-                    echo ""
-                done
-            else
-                test_bin="${build_dir}/bin/${2}"
-                if [ ! -f "$test_bin" ]; then
-                    echo "ERROR: The executable ${test_bin} was not found."
-                    echo ""
-                    exit 1
-                fi
-
-                echo ">> Running ${2} test <<"
-                $test_bin
-                echo ""
-            fi
-            ;;
-        "debug")
-            echo ">> Building <<"
-            make_all
-            echo ""
-            ;;
-        "clean")
-            echo ">> Cleaning <<"
-            rm -rf "${build_dir}"
-            echo "Removed ${build_dir}"
-            echo ""
-            ;;
-        *)
-            usage
-            ;;
-    esac
-else
+if [ -z "${1+x}" ]; then
     usage
+    exit 1
 fi
+
+if [ $1 == "test" ] || [ $1 == "debug" ]; then
+    if [ -z "${2+x}" ]; then
+        echo "=> ERROR: Missing second argument, library directory <="
+        usage
+        exit 1
+    fi
+
+    if [ ! -d "${lib_dir}/$2" ]; then
+        echo "=> ERROR: Library directory does not exist in ${lib_dir}/ <="
+        usage
+        exit 1
+    fi
+
+    make_prog $2
+
+    if [ $1 == "test" ]; then
+        # run tests
+        ${build_dir}/bin/test.out
+    fi
+
+    exit 0
+fi
+
+if [ $1 == "clean" ]; then
+    echo ">> Cleaning <<"
+    rm -rf "${build_dir}"
+    echo "Removed ${build_dir}"
+
+    exit 0
+fi
+
+# no matching first argument
+usage
