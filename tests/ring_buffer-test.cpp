@@ -30,7 +30,7 @@ TEST(RingBufferOverwrite, CycleBuffer)
         EXPECT_EQ(rb_put(rb, data_in), RB_OK);
     }
 
-    uint8_t data_out;
+    uint8_t data_out = 0;
     for (uint8_t val=9; val < 16; val++)
     {
         EXPECT_EQ(rb_get(rb, &data_out), RB_OK);
@@ -84,7 +84,10 @@ TEST_F(RingBufferDataStore, ResetBuffer)
     EXPECT_EQ(rb_put(rb, 0xFFU), RB_OK);
 
     rb_reset(rb);
+
+    EXPECT_EQ(rb->head_idx, 0);
+    EXPECT_EQ(rb->tail_idx, 0);
     EXPECT_EQ(rb_get(rb, &data_out), RB_EMPTY);
 }
 
-} // namespace
+}
